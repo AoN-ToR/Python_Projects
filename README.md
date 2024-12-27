@@ -5,4 +5,4 @@ url: "https://youtu.be/NpmFbWO6HPU?si=sPDO8hezqSoeLz--"
 
 Thank you for your attention, have a good day !
 
-PS: French is my native language, therfore it is more than likely that this readme has some english errors... feel free to let me know !
+PS: French is my native language, therefore it is more than likely that this readme file has some english errors... feel free to let me know !
