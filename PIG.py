@@ -6,10 +6,10 @@ def roll():
     return value
 
 while True:
-    players = input("\nNumber of players: ")
+    players = input("\nNumber of players (2-10): ")
     if players.isdigit():
         players = int(players)
-        if 2 <= players <= 8:
+        if 2 <= players <= 10:
             break
     print("Invalid input.", end="")
 
