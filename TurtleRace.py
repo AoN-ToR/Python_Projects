@@ -3,7 +3,7 @@ import turtle
 
 
 WIDTH, HEIGHT = 700, 600
-COLORS = ['blue', 'green', 'yellow', 'orange', 'red', 'white', 'violet', 'brown', 'black', 'purple']
+COLORS = ['blue', 'green', 'yellow', 'orange', 'red', 'cyan', 'violet', 'brown', 'black', 'purple']
 
 def nb_racers():
     while True:
