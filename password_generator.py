@@ -2,92 +2,63 @@ import random
 import string
 import time
 
-char_allowed = [""]
+def get_user_input(prompt, valid_options=None):
+    while True:
+        user_input = input(prompt).lower()
+        if valid_options:
+            if user_input in valid_options:
+                return user_input
+            else:
+                print("Invalid input. Try again.")
+        else:
+            if user_input.isdigit() and int(user_input) > 2:
+                return int(user_input)
+            elif user_input == "q":
+                quit()
+            else:
+                print("Invalid input. Try again.")
 
+char_allowed = []
 
-while True:
-    n = input("How many char would you like in your password (q to quit, min lenght = 3)? ")
-    if n.lower == "q":
-        quit()
-    elif n.isdigit():
-        length = int(n)
-        if length > 2:
-            break
-        print("Invalid input. Try again.")
-    else:
-        print("Invalid input. Try again.")
+length = get_user_input("How many characters would you like in your password? (q to quit, min length = 3) ")
+use_letters = get_user_input("Should we use letters in your password? (Y/n) ", ["y", "n"]) == "y"
+use_numbers = get_user_input("Should we use numbers in your password? (Y/n) ", ["y", "n"]) == "y"
+use_special_chars = get_user_input("Should we use special characters in your password? (Y/n) ", ["y", "n"]) == "y"
 
-while True:
-    n = input("Should we use letters in your password? (Y/n) ").lower()
-    if n == "y":
-        char_allowed.append(True)
-        break
-    elif n == "n":
-        char_allowed.append(False)
-        break
-    else:
-        print("Invalid input. Try again.")
-
-while True:
-    n = input("Should we use numbers in your password? (Y/n) ").lower()
-    if n == "y":
-        char_allowed.append(True)
-        break
-    elif n == "n":
-        char_allowed.append(False)
-        break
-    else:
-        print("Invalid input. Try again.")
-
-while True:
-    n = input("Should we use special caracters in your password? (Y/n) ").lower()
-    if n == "y":
-        char_allowed.append(True)
-        break
-    elif n == "n":
-        char_allowed.append(False)
-        break
-    else:
-        print("Invalid input. Try again.")
-
-
+char_allowed = [use_letters, use_numbers, use_special_chars]
 
 def generate(length, char_allowed):
-    letters = string.ascii_letters
-    numbers = string.digits
-    spe_chars = string.punctuation
+    characters = ""
+    if char_allowed[0]:
+        characters += string.ascii_letters
+    if char_allowed[1]:
+        characters += string.digits
+    if char_allowed[2]:
+        characters += string.punctuation
 
-    list = [letters, numbers, spe_chars]
-    lenght_list = 3
-
-    for i in range(3):
-        if char_allowed[i] == False:
-            list.pop(i)
-            lenght_list -= 1
-    if len(list) < 1:
+    if not characters:
         print("Insufficient material.")
         quit()
 
-    else:
-        list2 = letters + numbers + spe_chars
-        password = ""
-        for i in range(length):
-            char = list2[random.randint(0, len(list2)-1)]
-            password = str(password) + str(char)
-        check = lenght_list
-        for item in list:
-            for j in range(len(item)):
-                if item[j] in password:
-                    check -= 1
-                    break
-        if check == 0:
-            for i in range(2):
-                print(".", end="")
-                time.sleep(1)
-            print(f"\n\nHere is your freshly done new password:\n{password}\n\nSee you later! ")
-        else:
-            print(".", end="")
-            time.sleep(1)
-            generate(length, char_allowed)
+    # Ensure the inclusion of at least one character from each allowed category
+    password = []
+    if char_allowed[0]:
+        password.append(random.choice(string.ascii_letters))
+    if char_allowed[1]:
+        password.append(random.choice(string.digits))
+    if char_allowed[2]:
+        password.append(random.choice(string.punctuation))
 
-generate(length, char_allowed)
+    # Generate the rest of the password
+    while len(password) < length:
+        password.append(random.choice(characters))
+
+    # Shuffle the password list and convert to string
+    random.shuffle(password)
+    return "".join(password)
+
+password = generate(length, char_allowed)
+for i in range(2):
+    print(".", end="")
+    time.sleep(1)
+print(f"\n\nHere is your freshly done new password:\n{password}\n\nSee you later! ")
